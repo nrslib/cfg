@@ -1,10 +1,10 @@
 <?= "<?php" ?>
 
 
-
 namespace <?= $class->getNamespace() ?>;
 
 
+<?php usingBlock($class) ?>
 class <?= $class->getName(); ?>
 
 {
@@ -14,21 +14,35 @@ class <?= $class->getName(); ?>
 }
 
 <?php
-function fieldBlock(\nrslib\Cfg\Meta\Settings\FieldsSetting $fieldsSetting) {
+function usingBlock(\nrslib\Cfg\Meta\Settings\ClassSetting $classSetting)
+{
+    if (!$classSetting->anyUsing()) {
+        return;
+    }
+
+    foreach($classSetting->getUsings() as $index => $using) {
+        el('use ' . $using);
+    }
+
+    el();
+}
+
+function fieldBlock(\nrslib\Cfg\Meta\Settings\FieldsSetting $fieldsSetting)
+{
     if (!$fieldsSetting->hasAnyField()) {
         return;
     }
 
-    foreach($fieldsSetting->getFields() as $index => $field) {
+    foreach ($fieldsSetting->getFields() as $index => $field) {
         el($field->getAccessLevel()->toText() . ' ' . $field->getVariableName() . ';', 1);
     }
 
-    el('');
+    el();
 }
 
 function constructorBlock(?\nrslib\Cfg\Meta\Definitions\Methods\ConstructorDefinition $constructorDefinition)
 {
-    if(is_null($constructorDefinition)) {
+    if (is_null($constructorDefinition)) {
         return;
     }
 
@@ -36,7 +50,7 @@ function constructorBlock(?\nrslib\Cfg\Meta\Definitions\Methods\ConstructorDefin
     el('{', 1);
     echoMethodBody($constructorDefinition, 2);
     el('}', 1);
-    el('');
+    el();
 }
 
 function methodBlock(\nrslib\Cfg\Meta\Settings\MethodsSetting $methodsSetting)
@@ -54,10 +68,10 @@ function methodBlock(\nrslib\Cfg\Meta\Settings\MethodsSetting $methodsSetting)
         echoMethodBody($method, 2);
         e('}', 1);
     }
-    el('');
+    el();
 }
 
-function methodArguments(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface $methodDefinition) : string
+function methodArguments(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface $methodDefinition): string
 {
     $tokens = [];
     foreach ($methodDefinition->getArguments() as $argument) {
@@ -74,23 +88,36 @@ function methodArguments(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionIn
     return $result;
 }
 
+
+/**
+ * Echo with indent.
+ * @param string $text
+ * @param int $nest
+ */
 function e(string $text, int $nest = 0)
 {
     echo indent($nest) . $text;
 }
 
-function el(string $text, int $nest = 0)
+/**
+ * Echo Line with indent.
+ * @param string $text
+ * @param int $nest
+ */
+function el(string $text = '', int $nest = 0)
 {
     echo indent($nest) . $text . '
 ';
 }
 
-function echoBlankLine() {
-    el('');
-    el('');
+function echoBlankLine()
+{
+    el();
+    el();
 }
 
-function echoMethodBody(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface $method, $nest){
+function echoMethodBody(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface $method, $nest)
+{
     foreach ($method->getBody() as $line) {
         el($line, $nest);
     }
@@ -99,10 +126,11 @@ function echoMethodBody(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInt
 function indent(int $nest)
 {
     $indent = '';
-    for($i = 0; $i < $nest; $i++) {
+    for ($i = 0; $i < $nest; $i++) {
         $indent .= '    ';
     }
     return $indent;
 }
+
 ?>
 

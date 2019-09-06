@@ -16,6 +16,8 @@ class ClassSetting
     private $namespace;
     /** @var string */
     private $name;
+    /** @var string[] */
+    private $usings = [];
     /** @var ConstructorDefinition */
     private $constructor;
 
@@ -36,11 +38,37 @@ class ClassSetting
     }
 
     /**
+     * @return string[]
+     */
+    public function getUsings(): array
+    {
+        return $this->usings;
+    }
+
+    /**
      * @return ConstructorDefinition | null
      */
     public function getConstructor(): ?ConstructorDefinition
     {
         return $this->constructor;
+    }
+
+    /**
+     * @param string $module
+     * @return ClassSetting
+     */
+    public function addUse(string $module): self
+    {
+        array_push($this->usings, $module);
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function anyUsing(): bool
+    {
+        return count($this->usings) > 0;
     }
 
     /**

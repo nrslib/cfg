@@ -7,8 +7,8 @@ namespace nrslib\Cfg\Meta\Words;
 final class AccessLevel
 {
     private const PUBLIC = 0;
-    private const PROTECTED = 0;
-    private const PRIVATE = 0;
+    private const PROTECTED = 1;
+    private const PRIVATE = 2;
 
     private $level;
 
