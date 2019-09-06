@@ -25,9 +25,14 @@ class MethodDefinition implements MethodDefinitionInterface
     /**
      * MethodDefinition constructor.
      * @param string $name
+     * @throws InvalidArgumentException
      */
     public function __construct(string $name)
     {
+        if (!preg_match('/\A[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*\Z/', $name)) {
+            throw new InvalidArgumentException($name . ' is not a valid PHP method name, see following https://www.php.net/manual/en/functions.user-defined.php');
+        }
+
         $this->name = $name;
         $this->accessLevel = AccessLevel::private();
     }
