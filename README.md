@@ -28,7 +28,7 @@ $meta->setupClass()
     ->setConstructor(function ($define) {
         $define
             ->addArgument('renderer', 'ClassRenderer')
-            ->addBody('$this->>renderer = $renderer')
+            ->addBody('$this->renderer = $renderer;')
             ->addArgument('meta', 'ClassMeta')
             ->addBody('$this->meta = $meta;');
     });

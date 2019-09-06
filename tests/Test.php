@@ -26,7 +26,7 @@ class Test extends \PHPUnit\Framework\TestCase
             ->setConstructor(function ($define) {
                 $define
                     ->addArgument('renderer', 'ClassRenderer')
-                    ->addBody('$this->>renderer = $renderer')
+                    ->addBody('$this->renderer = $renderer;')
                     ->addArgument('meta', 'ClassMeta')
                     ->addBody('$this->meta = $meta;');
             });
@@ -44,7 +44,7 @@ class Test extends \PHPUnit\Framework\TestCase
                     ->addArgument('test2', 'string');
             })
             ->addMethod('render', function ($define) {
-                $define->addBody('$this->renderer->render($this->meta');
+                $define->addBody('$this->renderer->render($this->meta);');
             });
 
         $compiler = new ClassRenderer();

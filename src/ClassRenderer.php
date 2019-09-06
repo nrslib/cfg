@@ -14,8 +14,9 @@ class ClassRenderer
 {
     /**
      * @param ClassMeta $classMeta
+     * @return string
      */
-    function render(ClassMeta $classMeta)
+    function render(ClassMeta $classMeta) : string
     {
         $class = $classMeta->getClassSetting();
         $fieldsSetting = $classMeta->getFieldsSetting();
@@ -24,6 +25,6 @@ class ClassRenderer
         include(__DIR__ . '/Templates/ClassTemplate.template.php');
         $data = ob_get_contents();
         ob_end_clean();
-        echo $data;
+        return $data;
     }
 }
