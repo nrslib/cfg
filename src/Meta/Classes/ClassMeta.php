@@ -23,10 +23,12 @@ class ClassMeta
 
     /**
      * ClassMeta constructor.
+     * @param string $name
+     * @param string $namespace
      */
-    public function __construct()
+    public function __construct(string $name, string $namespace)
     {
-        $this->classSetting = new ClassSetting();
+        $this->classSetting = new ClassSetting($name, $namespace);
         $this->fieldsSetting = new FieldsSetting();
         $this->methodSetting = new MethodsSetting();
     }

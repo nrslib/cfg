@@ -23,6 +23,20 @@ class ClassSetting
     private $constructor;
 
     /**
+     * ClassSetting constructor.
+     * @param string $name
+     * @param string $namespace
+     */
+    public function __construct(string $name, string $namespace)
+    {
+        if (!preg_match('/\A[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*\Z/', $name)) {
+            throw new InvalidArgumentException($name . ' is not a valid PHP class name, see following https://www.php.net/manual/en/language.oop5.basic.php');
+        }
+        $this->name = $name;
+        $this->namespace = $namespace;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -70,31 +84,6 @@ class ClassSetting
     public function anyUsing(): bool
     {
         return count($this->usings) > 0;
-    }
-
-    /**
-     * @param string $name
-     * @return ClassSetting
-     * @throws InvalidArgumentException
-     */
-    public function setName(string $name): self
-    {
-        if (!preg_match('/\A[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*\Z/', $name)) {
-            throw new InvalidArgumentException($name . ' is not a valid PHP class name, see following https://www.php.net/manual/en/language.oop5.basic.php');
-        }
-
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @param string $namespace
-     * @return ClassSetting
-     */
-    public function setNamespace(string $namespace): self
-    {
-        $this->namespace = $namespace;
-        return $this;
     }
 
     /**
