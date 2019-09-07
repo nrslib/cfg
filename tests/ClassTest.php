@@ -7,7 +7,7 @@ use nrslib\Cfg\ClassRenderer;
 use nrslib\Cfg\Meta\Classes\ClassMeta;
 use nrslib\Cfg\Meta\Words\AccessLevel;
 
-class Test extends \PHPUnit\Framework\TestCase
+class ClassTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

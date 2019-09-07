@@ -1,3 +1,9 @@
+<?php
+namespace nrslib\Cfg\Templates\Classes;
+
+require_once "TemplateHelper.php";
+
+?>
 <?= "<?php" ?>
 
 
@@ -14,19 +20,6 @@ class <?= $class->getName(); ?>
 }
 
 <?php
-function usingBlock(\nrslib\Cfg\Meta\Settings\ClassSetting $classSetting)
-{
-    if (!$classSetting->anyUsing()) {
-        return;
-    }
-
-    foreach($classSetting->getUsings() as $index => $using) {
-        el('use ' . $using);
-    }
-
-    el();
-}
-
 function fieldBlock(\nrslib\Cfg\Meta\Settings\FieldsSetting $fieldsSetting)
 {
     if (!$fieldsSetting->hasAnyField()) {
@@ -70,67 +63,3 @@ function methodBlock(\nrslib\Cfg\Meta\Settings\MethodsSetting $methodsSetting)
     }
     el();
 }
-
-function methodArguments(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface $methodDefinition): string
-{
-    $tokens = [];
-    foreach ($methodDefinition->getArguments() as $argument) {
-        if ($argument->hasType()) {
-            $token = $argument->getName();
-        } else {
-            $token = $argument->getType() . ' ' . $argument->getName();
-        }
-
-        array_push($tokens, $token);
-    }
-    $result = implode(', ', $tokens);
-
-    return $result;
-}
-
-
-/**
- * Echo with indent.
- * @param string $text
- * @param int $nest
- */
-function e(string $text, int $nest = 0)
-{
-    echo indent($nest) . $text;
-}
-
-/**
- * Echo Line with indent.
- * @param string $text
- * @param int $nest
- */
-function el(string $text = '', int $nest = 0)
-{
-    echo indent($nest) . $text . '
-';
-}
-
-function echoBlankLine()
-{
-    el();
-    el();
-}
-
-function echoMethodBody(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface $method, $nest)
-{
-    foreach ($method->getBody() as $line) {
-        el($line, $nest);
-    }
-}
-
-function indent(int $nest)
-{
-    $indent = '';
-    for ($i = 0; $i < $nest; $i++) {
-        $indent .= '    ';
-    }
-    return $indent;
-}
-
-?>
-

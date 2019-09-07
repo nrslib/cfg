@@ -11,7 +11,7 @@ use InvalidArgumentException;
  * Class ClassSetting
  * @package nrslib\Cfg\Meta\Settings
  */
-class ClassSetting
+class ClassSetting implements BasicSettingInterface
 {
     /** @var string */
     private $namespace;

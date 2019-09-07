@@ -57,3 +57,17 @@ $meta->setupMethods()
         $define->addBody('$this->renderer->render($this->meta');
     });
 ```
+
+## Interface
+
+### Methods
+```
+$meta = new InterfaceMeta('MyInterface', 'nrslib');
+
+$meta->getMethodsSetting()
+    ->addMethod('testMethod', function($define) {
+        $define->addArgument('arg', 'string')
+            ->addArgument('arg2', 'string');
+    })
+    ->addMethod('testMethod2', function() {});
+```
