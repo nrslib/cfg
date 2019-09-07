@@ -1,6 +1,11 @@
 <?php
 namespace nrslib\Cfg\Templates\Classes;
 
+use nrslib\Cfg\Meta\Definitions\Methods\ConstructorDefinition;
+use nrslib\Cfg\Meta\Settings\ClassSetting;
+use nrslib\Cfg\Meta\Settings\FieldsSetting;
+use nrslib\Cfg\Meta\Settings\MethodsSetting;
+
 require_once "TemplateHelper.php";
 
 ?>
@@ -11,7 +16,7 @@ namespace <?= $class->getNamespace() ?>;
 
 
 <?php usingBlock($class) ?>
-class <?= $class->getName(); ?>
+class <?= $class->getName(); ?><?php extendsBlock($class); ?><?php implementsBlock($class); ?>
 
 {
 <?php fieldBlock($fieldsSetting); ?>
@@ -20,7 +25,26 @@ class <?= $class->getName(); ?>
 }
 
 <?php
-function fieldBlock(\nrslib\Cfg\Meta\Settings\FieldsSetting $fieldsSetting)
+function extendsBlock(ClassSetting $classSetting)
+{
+    if (!$classSetting->hasExtend()) {
+        return;
+    }
+
+    echo ' extends ' . $classSetting->getExtend();
+}
+
+function implementsBlock(ClassSetting $classSetting)
+{
+    if (!$classSetting->hasAnyImplements()) {
+        return;
+    }
+
+    $implementObjects = implode(', ', $classSetting->getImplements());
+    echo ' implements ' . $implementObjects;
+}
+
+function fieldBlock(FieldsSetting $fieldsSetting)
 {
     if (!$fieldsSetting->hasAnyField()) {
         return;
@@ -33,7 +57,7 @@ function fieldBlock(\nrslib\Cfg\Meta\Settings\FieldsSetting $fieldsSetting)
     el();
 }
 
-function constructorBlock(?\nrslib\Cfg\Meta\Definitions\Methods\ConstructorDefinition $constructorDefinition)
+function constructorBlock(?ConstructorDefinition $constructorDefinition)
 {
     if (is_null($constructorDefinition)) {
         return;
@@ -46,7 +70,7 @@ function constructorBlock(?\nrslib\Cfg\Meta\Definitions\Methods\ConstructorDefin
     el();
 }
 
-function methodBlock(\nrslib\Cfg\Meta\Settings\MethodsSetting $methodsSetting)
+function methodBlock(MethodsSetting $methodsSetting)
 {
     if (!$methodsSetting->hasAnyMethod()) {
         return;
@@ -56,7 +80,9 @@ function methodBlock(\nrslib\Cfg\Meta\Settings\MethodsSetting $methodsSetting)
         if ($index > 0) {
             echoBlankLine();
         }
-        el($method->getAccessLevel()->toText() . ' function ' . $method->getName() . '(' . methodArguments($method) . ')', 1);
+
+        $returnTypeText = $method->hasReturnType() ? ': ' . $method->getReturnType() : '';
+        el($method->getAccessLevel()->toText() . ' function ' . $method->getName() . '(' . methodArguments($method) . ')' . $returnTypeText, 1);
         el('{', 1);
         echoMethodBody($method, 2);
         e('}', 1);

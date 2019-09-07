@@ -23,6 +23,9 @@ $meta = new ClassMeta('MyTestClass', 'nrslib');
 $meta->setupClass()
     ->addUse('nrslib\Cfg\ClassRenderer')
     ->addUse('nrslib\Cfg\Meta\Classes\ClassMeta')
+    ->setExtend('SuperClass')
+    ->addImplement('MyInterface')
+    ->addImplement('MyInterface2')
     ->setConstructor(function ($define) {
         $define
             ->addArgument('renderer', 'ClassRenderer')
@@ -54,20 +57,31 @@ $meta->setupMethods()
             ->addArgument('test2', 'string');
     })
     ->addMethod('render', function ($define) {
-        $define->addBody('$this->renderer->render($this->meta');
+        $define->setReturnType('void')
+            ->addBody('$this->renderer->render($this->meta);');
     });
 ```
 
 ## Interface
 
+### Interface
+
+```
+$meta = new InterfaceMeta('MyInterface', 'nrslib');
+$meta->getInterfaceSetting()
+    ->addExtend('MyInterface')
+    ->addExtend('MyInterface2');
+```
+
 ### Methods
 ```
 $meta = new InterfaceMeta('MyInterface', 'nrslib');
-
 $meta->getMethodsSetting()
     ->addMethod('testMethod', function($define) {
         $define->addArgument('arg', 'string')
             ->addArgument('arg2', 'string');
     })
-    ->addMethod('testMethod2', function() {});
+    ->addMethod('testMethod2', function($define) {
+        $define->setReturnType('void');
+    });
 ```

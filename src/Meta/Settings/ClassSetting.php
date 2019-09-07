@@ -19,6 +19,10 @@ class ClassSetting implements BasicSettingInterface
     private $name;
     /** @var string[] */
     private $usings = [];
+    /** @var null|string */
+    private $extend = null;
+    /** @var string[] */
+    private $implements = [];
     /** @var ConstructorDefinition */
     private $constructor;
 
@@ -69,6 +73,22 @@ class ClassSetting implements BasicSettingInterface
     }
 
     /**
+     * @return null|string
+     */
+    public function getExtend(): ?string
+    {
+        return $this->extend;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getImplements(): array
+    {
+        return $this->implements;
+    }
+
+    /**
      * @param string $module
      * @return ClassSetting
      */
@@ -87,7 +107,7 @@ class ClassSetting implements BasicSettingInterface
     }
 
     /**
-     * @param $predicate
+     * @param callable ConstructorDefinition => void
      * @return ClassSetting
      */
     public function setConstructor($predicate): self
@@ -95,6 +115,42 @@ class ClassSetting implements BasicSettingInterface
         $constructor = new ConstructorDefinition();
         $predicate($constructor);
         $this->constructor = $constructor;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasExtend(): bool
+    {
+        return !is_null($this->extend);
+    }
+
+    /**
+     * @param string $extend
+     * @return ClassSetting
+     */
+    public function setExtend(string $extend): self
+    {
+        $this->extend = $extend;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAnyImplements(): bool
+    {
+        return count($this->implements) > 0;
+    }
+
+    /**
+     * @param string $implement
+     * @return ClassSetting
+     */
+    public function addImplement(string $implement): self
+    {
+        array_push($this->implements, $implement);
         return $this;
     }
 }

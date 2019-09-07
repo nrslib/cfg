@@ -21,6 +21,9 @@ class ClassTest extends \PHPUnit\Framework\TestCase
         $meta->setupClass()
             ->addUse('nrslib\Cfg\ClassRenderer')
             ->addUse('nrslib\Cfg\Meta\Classes\ClassMeta')
+            ->setExtend('SuperClass')
+            ->addImplement('MyInterface')
+            ->addImplement('MyInterface2')
             ->setConstructor(function ($define) {
                 $define
                     ->addArgument('renderer', 'ClassRenderer')
@@ -42,7 +45,8 @@ class ClassTest extends \PHPUnit\Framework\TestCase
                     ->addArgument('test2', 'string');
             })
             ->addMethod('render', function ($define) {
-                $define->addBody('$this->renderer->render($this->meta);');
+                $define->setReturnType('void')
+                    ->addBody('$this->renderer->render($this->meta);');
             });
 
         $compiler = new ClassRenderer();

@@ -22,6 +22,8 @@ class MethodDefinition implements MethodDefinitionInterface
     private $accessLevel;
     /** @var VariantDefinition[] */
     private $arguments = [];
+    /** @var null|string */
+    private $returnType = null;
 
     /**
      * MethodDefinition constructor.
@@ -55,6 +57,14 @@ class MethodDefinition implements MethodDefinitionInterface
     }
 
     /**
+     * @return null|string
+     */
+    public function getReturnType(): ?string
+    {
+        return $this->returnType;
+    }
+
+    /**
      * @return VariantDefinition[]
      */
     public function getArguments(): array
@@ -71,12 +81,30 @@ class MethodDefinition implements MethodDefinitionInterface
     }
 
     /**
+     * @return bool
+     */
+    public function hasReturnType(): bool
+    {
+        return !is_null($this->returnType);
+    }
+
+    /**
      * @param AccessLevel $level
      * @return MethodDefinition
      */
     public function setAccessLevel(AccessLevel $level): self
     {
         $this->accessLevel = $level;
+        return $this;
+    }
+
+    /**
+     * @param string $type
+     * @return MethodDefinition
+     */
+    public function setReturnType(string $type): self
+    {
+        $this->returnType = $type;
         return $this;
     }
 

@@ -4,6 +4,10 @@
 namespace nrslib\Cfg\Meta\Settings;
 
 
+/**
+ * Class InterfaceSetting
+ * @package nrslib\Cfg\Meta\Settings
+ */
 class InterfaceSetting implements BasicSettingInterface
 {
     /** @var string */
@@ -12,6 +16,8 @@ class InterfaceSetting implements BasicSettingInterface
     private $namespace;
     /** @var string[] */
     private $usings = [];
+    /** @var string[] */
+    private $extends = [];
 
     /**
      * InterfaceSetting constructor.
@@ -52,6 +58,22 @@ class InterfaceSetting implements BasicSettingInterface
     }
 
     /**
+     * @return string[]
+     */
+    public function getExtends(): array
+    {
+        return $this->extends;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAnyExtend(): bool
+    {
+        return count($this->extends) > 0;
+    }
+
+    /**
      * @return bool
      */
     function anyUsing(): bool
@@ -66,6 +88,16 @@ class InterfaceSetting implements BasicSettingInterface
     public function addUse(string $module): self
     {
         array_push($this->usings, $module);
+        return $this;
+    }
+
+    /**
+     * @param string $extend
+     * @return InterfaceSetting
+     */
+    public function addExtend(string $extend): self
+    {
+        array_push($this->extends, $extend);
         return $this;
     }
 }
