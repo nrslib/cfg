@@ -7,7 +7,7 @@ Class File Generator
 use nrslib\Cfg\ClassRenderer;
 use nrslib\Cfg\Meta\Classes\ClassMeta;
 
-$meta = new ClassMeta();
+$meta = new ClassMeta('MyTestClass', 'nrslib');
 $renderer = new ClassRenderer();
 echo $renderer->render($meta);
 ```
@@ -19,10 +19,8 @@ echo $renderer->render($meta);
 ### Class
 
 ```
-$meta = new ClassMeta();
+$meta = new ClassMeta('MyTestClass', 'nrslib');
 $meta->setupClass()
-    ->setName("MyTestClass")
-    ->setNamespace("nrslib")
     ->addUse('nrslib\Cfg\ClassRenderer')
     ->addUse('nrslib\Cfg\Meta\Classes\ClassMeta')
     ->setConstructor(function ($define) {
@@ -37,7 +35,7 @@ $meta->setupClass()
 ### Fields
 
 ```
-$meta = new ClassMeta();
+$meta = new ClassMeta('MyTestClass', 'nrslib');
 $meta->setupFields()
     ->addField('testField', 'string')
     ->addField('testField2', 'string', AccessLevel::public())
@@ -48,7 +46,7 @@ $meta->setupFields()
 ### Methods
 
 ```
-$meta = new ClassMeta();
+$meta = new ClassMeta('MyTestClass', 'nrslib');
 $meta->setupMethods()
     ->addMethod('test', function ($define) {
         $define->setAccessLevel(AccessLevel::public())

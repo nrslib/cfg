@@ -16,11 +16,9 @@ class Test extends \PHPUnit\Framework\TestCase
 
     public function testMyTest(): void
     {
-        $meta = new ClassMeta();
+        $meta = new ClassMeta('MyTestClass', 'nrslib');
 
         $meta->setupClass()
-            ->setName("MyTestClass")
-            ->setNamespace("nrslib")
             ->addUse('nrslib\Cfg\ClassRenderer')
             ->addUse('nrslib\Cfg\Meta\Classes\ClassMeta')
             ->setConstructor(function ($define) {

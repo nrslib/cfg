@@ -22,6 +22,17 @@ class ClassSetting
     private $constructor;
 
     /**
+     * ClassSetting constructor.
+     * @param string $name
+     * @param string $namespace
+     */
+    public function __construct(string $name, string $namespace)
+    {
+        $this->name = $name;
+        $this->namespace = $namespace;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -69,26 +80,6 @@ class ClassSetting
     public function anyUsing(): bool
     {
         return count($this->usings) > 0;
-    }
-
-    /**
-     * @param string $name
-     * @return ClassSetting
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @param string $namespace
-     * @return ClassSetting
-     */
-    public function setNamespace(string $namespace): self
-    {
-        $this->namespace = $namespace;
-        return $this;
     }
 
     /**
