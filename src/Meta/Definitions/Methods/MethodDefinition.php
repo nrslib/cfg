@@ -6,6 +6,7 @@ namespace nrslib\Cfg\Meta\Definitions\Methods;
 
 use nrslib\Cfg\Meta\Definitions\VariantDefinition;
 use nrslib\Cfg\Meta\Words\AccessLevel;
+use InvalidArgumentException;
 
 /**
  * Class MethodDefinition

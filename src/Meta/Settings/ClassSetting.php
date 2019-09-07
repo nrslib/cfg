@@ -5,6 +5,7 @@ namespace nrslib\Cfg\Meta\Settings;
 
 
 use nrslib\Cfg\Meta\Definitions\Methods\ConstructorDefinition;
+use InvalidArgumentException;
 
 /**
  * Class ClassSetting

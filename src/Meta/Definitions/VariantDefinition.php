@@ -3,6 +3,7 @@
 
 namespace nrslib\Cfg\Meta\Definitions;
 
+use InvalidArgumentException;
 
 /**
  * Class VariantDefinition
