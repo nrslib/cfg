@@ -5,6 +5,7 @@ namespace nrslib\Cfg\Meta\Settings;
 
 
 use nrslib\Cfg\Meta\Definitions\Methods\ConstructorDefinition;
+use InvalidArgumentException;
 
 /**
  * Class ClassSetting
@@ -28,6 +29,9 @@ class ClassSetting
      */
     public function __construct(string $name, string $namespace)
     {
+        if (!preg_match('/\A[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*\Z/', $name)) {
+            throw new InvalidArgumentException($name . ' is not a valid PHP class name, see following https://www.php.net/manual/en/language.oop5.basic.php');
+        }
         $this->name = $name;
         $this->namespace = $namespace;
     }
