@@ -14,6 +14,13 @@ namespace <?= $interface->getNamespace() ?>;
 
 
 <?php usingBlock($interface) ?>
+<?php usingBlock($interface); ?>
+/**
+ * Interface <?= $interface->getName(); ?>
+
+ * @package <?= $interface->getNamespace(); ?>
+
+*/
 interface <?= $interface->getName(); ?><?php extendsBlock($interface); ?>
 
 {
@@ -39,6 +46,7 @@ function methodBlock(MethodsSetting $methodsSetting)
     }
 
     foreach ($methodsSetting->getMethods() as $index => $method) {
+        methodComment($method, 1);
         $returnTypeText = $method->hasReturnType() ? ': ' . $method->getReturnType() : '';
         el(' function ' . $method->getName() . '(' . methodArguments($method) . ')' . $returnTypeText . ';', 1);
     }

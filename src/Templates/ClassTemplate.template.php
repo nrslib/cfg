@@ -12,15 +12,21 @@ require_once "TemplateHelper.php";
 <?= "<?php" ?>
 
 
-namespace <?= $class->getNamespace() ?>;
+namespace <?= $class->getNamespace(); ?>;
 
 
-<?php usingBlock($class) ?>
+<?php usingBlock($class); ?>
+/**
+ * Class <?= $class->getName(); ?>
+
+ * @package <?= $class->getNamespace(); ?>
+
+ */
 class <?= $class->getName(); ?><?php extendsBlock($class); ?><?php implementsBlock($class); ?>
 
 {
 <?php fieldBlock($fieldsSetting); ?>
-<?php constructorBlock($class->getConstructor()); ?>
+<?php constructorBlock($class, $class->getConstructor()); ?>
 <?php methodBlock($methodsSetting); ?>
 }
 
@@ -51,18 +57,20 @@ function fieldBlock(FieldsSetting $fieldsSetting)
     }
 
     foreach ($fieldsSetting->getFields() as $index => $field) {
+        fieldComment($field, 1);
         el($field->getAccessLevel()->toText() . ' ' . $field->getVariableName() . ';', 1);
     }
 
     el();
 }
 
-function constructorBlock(?ConstructorDefinition $constructorDefinition)
+function constructorBlock(ClassSetting $classSetting, ?ConstructorDefinition $constructorDefinition)
 {
     if (is_null($constructorDefinition)) {
         return;
     }
 
+    methodComment($constructorDefinition, 1, $classSetting->getName() . ' constructor.');
     el(\nrslib\Cfg\Meta\Words\AccessLevel::public()->toText() . ' function __construct(' . methodArguments($constructorDefinition) . ')', 1);
     el('{', 1);
     echoMethodBody($constructorDefinition, 2);
@@ -81,6 +89,7 @@ function methodBlock(MethodsSetting $methodsSetting)
             echoBlankLine();
         }
 
+        methodComment($method, 1);
         $returnTypeText = $method->hasReturnType() ? ': ' . $method->getReturnType() : '';
         el($method->getAccessLevel()->toText() . ' function ' . $method->getName() . '(' . methodArguments($method) . ')' . $returnTypeText, 1);
         el('{', 1);

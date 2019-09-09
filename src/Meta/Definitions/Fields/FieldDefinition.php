@@ -47,6 +47,22 @@ class FieldDefinition
     }
 
     /**
+     * @return string
+     */
+    public function getVariableType(): string
+    {
+        return $this->variantDefinition->getType();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasType(): bool
+    {
+        return $this->variantDefinition->hasType();
+    }
+
+    /**
      * @param AccessLevel $accessLevel
      * @return FieldDefinition
      */

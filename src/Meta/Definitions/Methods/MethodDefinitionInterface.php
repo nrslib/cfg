@@ -21,4 +21,15 @@ interface MethodDefinitionInterface
      * @return string[]
      */
     function getBody(): array;
+
+    /**
+     * @return null|string
+     */
+    function getReturnType(): ?string;
+
+    /**
+     * @param bool $ignoreVoid
+     * @return bool
+     */
+    function hasReturnType(bool $ignoreVoid): bool;
 }

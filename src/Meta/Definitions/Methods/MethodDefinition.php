@@ -81,10 +81,14 @@ class MethodDefinition implements MethodDefinitionInterface
     }
 
     /**
+     * @param bool $ignoreVoid true && $returnType === 'void' -> false
      * @return bool
      */
-    public function hasReturnType(): bool
+    public function hasReturnType(bool $ignoreVoid = false): bool
     {
+        if ($ignoreVoid && $this->returnType === 'void') {
+            return false;
+        }
         return !is_null($this->returnType);
     }
 

@@ -34,6 +34,14 @@ class ConstructorDefinition implements MethodDefinitionInterface
     }
 
     /**
+     * @return null|string
+     */
+    function getReturnType(): ?string
+    {
+        return null;
+    }
+
+    /**
      * @param string $name
      * @param string|null $type
      * @return ConstructorDefinition
@@ -52,5 +60,14 @@ class ConstructorDefinition implements MethodDefinitionInterface
     {
         array_push($this->body, $line);
         return $this;
+    }
+
+    /**
+     * @param bool $ignoreVoid
+     * @return bool
+     */
+    function hasReturnType(bool $ignoreVoid = false): bool
+    {
+        return false;
     }
 }

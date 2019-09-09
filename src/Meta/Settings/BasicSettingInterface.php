@@ -4,6 +4,10 @@
 namespace nrslib\Cfg\Meta\Settings;
 
 
+/**
+ * Interface BasicSettingInterface
+ * @package nrslib\Cfg\Meta\Settings
+ */
 interface BasicSettingInterface
 {
     /**

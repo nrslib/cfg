@@ -58,6 +58,6 @@ class VariantDefinition
      */
     public function hasType(): bool
     {
-        return is_null($this->type);
+        return !is_null($this->type);
     }
 }

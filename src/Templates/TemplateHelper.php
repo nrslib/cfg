@@ -1,30 +1,70 @@
 <?php
 
+use nrslib\Cfg\Meta\Definitions\Fields\FieldDefinition;
+use nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface;
+use nrslib\Cfg\Meta\Definitions\VariantDefinition;
+use nrslib\Cfg\Meta\Settings\BasicSettingInterface;
+
 class TemplateHelper
 {
 
 }
-function usingBlock(\nrslib\Cfg\Meta\Settings\BasicSettingInterface $basicSetting)
+
+function usingBlock(BasicSettingInterface $basicSetting)
 {
     if (!$basicSetting->anyUsing()) {
         return;
     }
 
-    foreach($basicSetting->getUsings() as $index => $using) {
-        el('use ' . $using);
+    foreach ($basicSetting->getUsings() as $index => $using) {
+        el('use ' . $using . ';');
     }
 
     el();
 }
 
-function methodArguments(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface $methodDefinition): string
+function fieldComment(FieldDefinition $field, $nest) {
+    el('/** @var ' . $field->getVariableType() . ' */', $nest);
+}
+
+function methodComment(MethodDefinitionInterface $methodDefinition, int $nest, string $comment = null)
+{
+    $args = $methodDefinition->getArguments();
+
+    if (!$methodDefinition->hasReturnType(true) && count($args) <= 0) {
+        el('/**', $nest);
+        el(' * ' . $comment, $nest);
+        el(' */', $nest);
+        return;
+    }
+
+    el('/**', $nest);
+    if (!is_null($comment)) {
+        el(' * '. $comment, $nest);
+    }
+    foreach ($args as $arg) {
+        parameterComment($arg, $nest);
+    }
+
+    if ($methodDefinition->hasReturnType(true)) {
+        el(' * @return ' . $methodDefinition->getReturnType(), $nest);
+    }
+    el(' */', $nest);
+}
+
+function parameterComment(VariantDefinition $arg, $nest) {
+    $argComment = $arg->hasType() ? $arg->getType() . ' ' . $arg->getName() : $arg->getName();
+    el(' * @param ' . $argComment, $nest);
+}
+
+function methodArguments(MethodDefinitionInterface $methodDefinition): string
 {
     $tokens = [];
     foreach ($methodDefinition->getArguments() as $argument) {
         if ($argument->hasType()) {
-            $token = $argument->getName();
-        } else {
             $token = $argument->getType() . ' ' . $argument->getName();
+        } else {
+            $token = $argument->getName();
         }
 
         array_push($tokens, $token);
@@ -61,7 +101,7 @@ function echoBlankLine()
     el();
 }
 
-function echoMethodBody(\nrslib\Cfg\Meta\Definitions\Methods\MethodDefinitionInterface $method, $nest)
+function echoMethodBody(MethodDefinitionInterface $method, $nest)
 {
     foreach ($method->getBody() as $line) {
         el($line, $nest);
