@@ -1,7 +1,13 @@
 {
     "name": "nrslib/cfg",
     "description": "class file generator",
-    "type":"library",
+    "type": "library",
+    "license": "MIT",
+    "authors" : [
+      {
+        "name" : "nrslib"
+      }
+    ],
     "require": {
         "phpunit/phpunit": "^7.3"
     },
