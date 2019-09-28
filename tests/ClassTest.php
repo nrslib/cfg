@@ -9,7 +9,7 @@ use nrslib\Cfg\Meta\Words\AccessLevel;
 
 class ClassTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
 
     }
