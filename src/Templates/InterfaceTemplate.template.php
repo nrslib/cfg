@@ -1,11 +1,11 @@
 <?php
 namespace nrslib\Cfg\Templates\Interfaces;
 
-use function foo\func;
 use nrslib\Cfg\Meta\Settings\InterfaceSetting;
 use nrslib\Cfg\Meta\Settings\MethodsSetting;
+use nrslib\Cfg\Templates\Helper;
 
-require_once "TemplateHelper.php";
+require_once "Helper.php";
 ?>
 <?= "<?php" ?>
 
@@ -13,8 +13,8 @@ require_once "TemplateHelper.php";
 namespace <?= $interface->getNamespace() ?>;
 
 
-<?php usingBlock($interface) ?>
-<?php usingBlock($interface); ?>
+<?php Helper::usingBlock($interface) ?>
+<?php Helper::usingBlock($interface); ?>
 /**
  * Interface <?= $interface->getName(); ?>
 
@@ -46,8 +46,8 @@ function methodBlock(MethodsSetting $methodsSetting)
     }
 
     foreach ($methodsSetting->getMethods() as $index => $method) {
-        methodComment($method, 1);
+        Helper::methodComment($method, 1);
         $returnTypeText = $method->hasReturnType() ? ': ' . $method->getReturnType() : '';
-        el(' function ' . $method->getName() . '(' . methodArguments($method) . ')' . $returnTypeText . ';', 1);
+        Helper::el(' function ' . $method->getName() . '(' . Helper::methodArguments($method) . ')' . $returnTypeText . ';', 1);
     }
 }

@@ -5,8 +5,9 @@ use nrslib\Cfg\Meta\Definitions\Methods\ConstructorDefinition;
 use nrslib\Cfg\Meta\Settings\ClassSetting;
 use nrslib\Cfg\Meta\Settings\FieldsSetting;
 use nrslib\Cfg\Meta\Settings\MethodsSetting;
+use nrslib\Cfg\Templates\Helper;
 
-require_once "TemplateHelper.php";
+require_once "Helper.php";
 
 ?>
 <?= "<?php" ?>
@@ -15,7 +16,7 @@ require_once "TemplateHelper.php";
 namespace <?= $class->getNamespace(); ?>;
 
 
-<?php usingBlock($class); ?>
+<?php Helper::usingBlock($class); ?>
 /**
  * Class <?= $class->getName(); ?>
 
@@ -57,11 +58,11 @@ function fieldBlock(FieldsSetting $fieldsSetting)
     }
 
     foreach ($fieldsSetting->getFields() as $index => $field) {
-        fieldComment($field, 1);
-        el($field->getAccessLevel()->toText() . ' ' . $field->getVariableName() . ';', 1);
+        Helper::fieldComment($field, 1);
+        Helper::el($field->getAccessLevel()->toText() . ' ' . $field->getVariableName() . ';', 1);
     }
 
-    el();
+    Helper::el();
 }
 
 function constructorBlock(ClassSetting $classSetting, ?ConstructorDefinition $constructorDefinition)
@@ -70,12 +71,12 @@ function constructorBlock(ClassSetting $classSetting, ?ConstructorDefinition $co
         return;
     }
 
-    methodComment($constructorDefinition, 1, $classSetting->getName() . ' constructor.');
-    el(\nrslib\Cfg\Meta\Words\AccessLevel::public()->toText() . ' function __construct(' . methodArguments($constructorDefinition) . ')', 1);
-    el('{', 1);
-    echoMethodBody($constructorDefinition, 2);
-    el('}', 1);
-    el();
+    Helper::methodComment($constructorDefinition, 1, $classSetting->getName() . ' constructor.');
+    Helper::el(\nrslib\Cfg\Meta\Words\AccessLevel::public()->toText() . ' function __construct(' . Helper::methodArguments($constructorDefinition) . ')', 1);
+    Helper::el('{', 1);
+    Helper::echoMethodBody($constructorDefinition, 2);
+    Helper::el('}', 1);
+    Helper::el();
 }
 
 function methodBlock(MethodsSetting $methodsSetting)
@@ -86,15 +87,15 @@ function methodBlock(MethodsSetting $methodsSetting)
 
     foreach ($methodsSetting->getMethods() as $index => $method) {
         if ($index > 0) {
-            echoBlankLine();
+            Helper::echoBlankLine();
         }
 
-        methodComment($method, 1);
+        Helper::methodComment($method, 1);
         $returnTypeText = $method->hasReturnType() ? ': ' . $method->getReturnType() : '';
-        el($method->getAccessLevel()->toText() . ' function ' . $method->getName() . '(' . methodArguments($method) . ')' . $returnTypeText, 1);
-        el('{', 1);
-        echoMethodBody($method, 2);
-        e('}', 1);
+        Helper::el($method->getAccessLevel()->toText() . ' function ' . $method->getName() . '(' . Helper::methodArguments($method) . ')' . $returnTypeText, 1);
+        Helper::el('{', 1);
+        Helper::echoMethodBody($method, 2);
+        Helper::e('}', 1);
     }
-    el();
+    Helper::el();
 }
