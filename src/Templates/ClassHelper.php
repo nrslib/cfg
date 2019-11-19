@@ -51,7 +51,7 @@ class ClassHelper
         }
 
         Helper::methodComment($constructorDefinition, 1, $classSetting->getName() . ' constructor.');
-        Helper::el(\nrslib\Cfg\Meta\Words\AccessLevel::public()->toText() . ' public static function __construct(' . Helper::methodArguments($constructorDefinition) . ')', 1);
+        Helper::el(\nrslib\Cfg\Meta\Words\AccessLevel::public()->toText() . ' function __construct(' . Helper::methodArguments($constructorDefinition) . ')', 1);
         Helper::el('{', 1);
         Helper::echoMethodBody($constructorDefinition, 2);
         Helper::el('}', 1);
@@ -71,7 +71,7 @@ class ClassHelper
 
             Helper::methodComment($method, 1);
             $returnTypeText = $method->hasReturnType() ? ': ' . $method->getReturnType() : '';
-            Helper::el($method->getAccessLevel()->toText() . ' public static function ' . $method->getName() . '(' . Helper::methodArguments($method) . ')' . $returnTypeText, 1);
+            Helper::el($method->getAccessLevel()->toText() . ' function ' . $method->getName() . '(' . Helper::methodArguments($method) . ')' . $returnTypeText, 1);
             Helper::el('{', 1);
             Helper::echoMethodBody($method, 2);
             Helper::e('}', 1);

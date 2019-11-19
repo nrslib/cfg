@@ -28,7 +28,7 @@ class InterfaceHelper
         foreach ($methodsSetting->getMethods() as $index => $method) {
             Helper::methodComment($method, 1);
             $returnTypeText = $method->hasReturnType() ? ': ' . $method->getReturnType() : '';
-            Helper::el(' public static function ' . $method->getName() . '(' . Helper::methodArguments($method) . ')' . $returnTypeText . ';', 1);
+            Helper::el('function ' . $method->getName() . '(' . Helper::methodArguments($method) . ')' . $returnTypeText . ';', 1);
         }
     }
 }
