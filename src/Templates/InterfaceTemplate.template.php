@@ -11,7 +11,6 @@ use nrslib\Cfg\Templates\InterfaceHelper;
 namespace <?= $interface->getNamespace() ?>;
 
 
-<?php Helper::usingBlock($interface) ?>
 <?php Helper::usingBlock($interface); ?>
 /**
  * Interface <?= $interface->getName(); ?>
