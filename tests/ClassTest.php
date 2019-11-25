@@ -47,7 +47,17 @@ class ClassTest extends \PHPUnit\Framework\TestCase
             ->addMethod('render', function ($define) {
                 $define->setReturnType('void')
                     ->addBody('$this->renderer->render($this->meta);');
-            });
+            })
+            ->updateMethod('render', function ($define) {
+                $body = $define->getBody();
+                $define->clearBody();
+                array_push($body, '// any comment');
+                foreach ($body as $line)
+                {
+                    $define->addBody($line);
+                }
+            })
+        ;
 
         $compiler = new ClassRenderer();
         echo $compiler->render($meta);

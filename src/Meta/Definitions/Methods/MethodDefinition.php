@@ -152,4 +152,13 @@ class MethodDefinition implements MethodDefinitionInterface
         array_push($this->body, $line);
         return $this;
     }
+
+    /**
+     * @return MethodDefinition
+     */
+    public function clearBody(): self
+    {
+        $this->body = [];
+        return $this;
+    }
 }
