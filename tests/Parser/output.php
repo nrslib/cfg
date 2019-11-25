@@ -22,7 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Mock で実行したい場合はコメントアウト
         $this->registerForInMemory();
+        // Mock で実行したい場合はコメント外す
+        //        $this->registerForMock();
         // Mock で実行したい場合はコメント外す
         //        $this->registerForMock();
     }
@@ -35,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        //
     }
 
     /**
@@ -42,7 +46,9 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registerForInMemory()
     {
+        // first
         $this->app->singleton(\packages\Domain\Domain\User\UserRepositoryInterface::class, \packages\InMemoryInfrastructure\User\InMemoryUserRepository::class);
+        // second
         $this->app->bind(\packages\UseCase\User\GetList\UserGetListUseCaseInterface::class, \packages\Domain\Application\User\UserGetListInteractor::class);
         $this->app->bind(UserGetListPresenterInterface::class, UserGetListPresenter::class);
         $this->app->bind(\packages\UseCase\User\Create\UserCreateUseCaseInterface::class, \packages\Domain\Application\User\UserCreateInteractor::class);

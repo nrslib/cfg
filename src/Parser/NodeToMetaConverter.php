@@ -178,6 +178,14 @@ class NodeToMetaConverter
         }
 
         foreach ($classMethod->stmts as $stmt) {
+            $comments = $stmt->getAttribute('comments', []);
+            foreach ($comments as $comment)
+            {
+                $commentText = $comment->getText();
+                $commentText = str_replace(["\r\n", "\r", "\n"], '', $commentText);
+                $addBody($commentText);
+            }
+
             $builder = $this->statementBuilderFactory->getBuilder($stmt);
             $text = $builder->build();
             foreach ($text as $tex) {

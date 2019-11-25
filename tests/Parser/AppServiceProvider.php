@@ -35,11 +35,13 @@ class AppServiceProvider extends ServiceProvider
     }
 
     private function registerForInMemory(){
+        // first
         $this->app->singleton(
             \packages\Domain\Domain\User\UserRepositoryInterface::class,
             \packages\InMemoryInfrastructure\User\InMemoryUserRepository::class
         );
 
+        // second
         $this->app->bind(
             \packages\UseCase\User\GetList\UserGetListUseCaseInterface::class,
             \packages\Domain\Application\User\UserGetListInteractor::class
