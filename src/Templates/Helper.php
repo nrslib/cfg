@@ -23,18 +23,29 @@ class Helper
         self::el();
     }
 
-    public static  function fieldComment(FieldDefinition $field, $nest)
+    public static function fieldComment(FieldDefinition $field, $nest)
     {
         self::el('/** @var ' . $field->getVariableType() . ' */', $nest);
     }
 
-    public static  function methodComment(MethodDefinitionInterface $methodDefinition, int $nest, string $comment = null)
+    public static function methodComment(MethodDefinitionInterface $methodDefinition, int $nest, string $comment = null)
     {
         $args = $methodDefinition->getArguments();
 
         if (!$methodDefinition->hasReturnType(true) && count($args) <= 0) {
             self::el('/**', $nest);
-            self::el(' * ' . $comment, $nest);
+            $comments = !is_null($comment) ? array_merge($methodDefinition->getComments(), [$comment]) : $methodDefinition->getComments();
+            if (empty($comments)) {
+                self::el(' *', $nest);
+            } else {
+                foreach ($comments as $comment) {
+                    if ($comment) {
+                        self::el(' * ' . $comment, $nest);
+                    } else {
+                        self::el(' *', $nest);
+                    }
+                }
+            }
             self::el(' */', $nest);
             return;
         }
@@ -53,13 +64,13 @@ class Helper
         self::el(' */', $nest);
     }
 
-    public static  function parameterComment(VariantDefinition $arg, $nest)
+    public static function parameterComment(VariantDefinition $arg, $nest)
     {
         $argComment = $arg->hasType() ? $arg->getType() . ' ' . $arg->getName() : $arg->getName();
         self::el(' * @param ' . $argComment, $nest);
     }
 
-    public static  function methodArguments(MethodDefinitionInterface $methodDefinition): string
+    public static function methodArguments(MethodDefinitionInterface $methodDefinition): string
     {
         $tokens = [];
         foreach ($methodDefinition->getArguments() as $argument) {
@@ -81,7 +92,7 @@ class Helper
      * @param string $text
      * @param int $nest
      */
-    public static  function e(string $text, int $nest = 0)
+    public static function e(string $text, int $nest = 0)
     {
         echo self::indent($nest) . $text;
     }
@@ -91,7 +102,7 @@ class Helper
      * @param string $text
      * @param int $nest
      */
-    public static  function el(string $text = '', int $nest = 0)
+    public static function el(string $text = '', int $nest = 0)
     {
         echo self::indent($nest) . $text . '
 ';
@@ -103,14 +114,14 @@ class Helper
         self::el();
     }
 
-    public static  function echoMethodBody(MethodDefinitionInterface $method, $nest)
+    public static function echoMethodBody(MethodDefinitionInterface $method, $nest)
     {
         foreach ($method->getBody() as $line) {
             self::el($line, $nest);
         }
     }
 
-    public static  function indent(int $nest)
+    public static function indent(int $nest)
     {
         $indent = '';
         for ($i = 0; $i < $nest; $i++) {

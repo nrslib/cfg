@@ -15,6 +15,8 @@ class ConstructorDefinition implements MethodDefinitionInterface
     /** @var VariantDefinition[] */
     private $arguments = [];
     /** @var string[] */
+    private $comments = [];
+    /** @var string[] */
     private $body = [];
 
     /**
@@ -23,6 +25,14 @@ class ConstructorDefinition implements MethodDefinitionInterface
     public function getArguments(): array
     {
         return $this->arguments;
+    }
+
+    /**
+     * @return string[]
+     */
+    function getComments(): array
+    {
+        return $this->comments;
     }
 
     /**
@@ -49,6 +59,16 @@ class ConstructorDefinition implements MethodDefinitionInterface
     public function addArgument(string $name, string $type = null): self
     {
         array_push($this->arguments, new VariantDefinition($name, $type));
+        return $this;
+    }
+
+    /**
+     * @param string $comment
+     * @return ConstructorDefinition
+     */
+    public function addComment(string $comment): self
+    {
+        array_push($this->comments, $comment);
         return $this;
     }
 

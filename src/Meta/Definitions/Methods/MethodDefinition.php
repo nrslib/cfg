@@ -22,6 +22,8 @@ class MethodDefinition implements MethodDefinitionInterface
     private $accessLevel;
     /** @var VariantDefinition[] */
     private $arguments = [];
+    /** @var string[] */
+    private $comments = [];
     /** @var null|string */
     private $returnType = null;
 
@@ -75,6 +77,14 @@ class MethodDefinition implements MethodDefinitionInterface
     /**
      * @return string[]
      */
+    function getComments(): array
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @return string[]
+     */
     public function getBody(): array
     {
         return $this->body;
@@ -120,6 +130,16 @@ class MethodDefinition implements MethodDefinitionInterface
     public function addArgument(string $name, string $type = null): self
     {
         array_push($this->arguments, new VariantDefinition($name, $type));
+        return $this;
+    }
+
+    /**
+     * @param string $comment
+     * @return $this
+     */
+    public function addComment(string $comment)
+    {
+        array_push($this->comments, $comment);
         return $this;
     }
 

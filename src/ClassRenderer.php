@@ -16,7 +16,7 @@ class ClassRenderer
      * @param ClassMeta $classMeta
      * @return string
      */
-    function render(ClassMeta $classMeta) : string
+    function render(ClassMeta $classMeta): string
     {
         $class = $classMeta->getClassSetting();
         $fieldsSetting = $classMeta->getFieldsSetting();

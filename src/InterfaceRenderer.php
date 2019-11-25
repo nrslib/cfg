@@ -12,7 +12,7 @@ class InterfaceRenderer
      * @param InterfaceMeta $meta
      * @return string
      */
-    function render(InterfaceMeta $meta) : string
+    function render(InterfaceMeta $meta): string
     {
         $interface = $meta->getInterfaceSetting();
         $methodsSetting = $meta->getMethodsSetting();

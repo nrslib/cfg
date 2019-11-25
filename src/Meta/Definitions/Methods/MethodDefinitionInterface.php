@@ -17,6 +17,12 @@ interface MethodDefinitionInterface
      */
     function getArguments(): array;
 
+
+    /**
+     * @return string[]
+     */
+    function getComments(): array;
+
     /**
      * @return string[]
      */
