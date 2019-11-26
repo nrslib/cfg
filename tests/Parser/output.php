@@ -26,8 +26,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerForInMemory();
         // Mock で実行したい場合はコメント外す
         //        $this->registerForMock();
-        // Mock で実行したい場合はコメント外す
-        //        $this->registerForMock();
     }
 
     /**
@@ -37,7 +35,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
         //
     }
 
